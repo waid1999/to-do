@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -38,10 +38,10 @@ const SignUp = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [successLogin, setSuccessLogin] = useState(false);
 
   const allUser = JSON.parse(localStorage.getItem('data')) || [];
   const classes = useStyles();
+  const history = useHistory();
   
   const handleSubmit = () => {
     const user = {
@@ -54,12 +54,8 @@ const SignUp = () => {
     };
     localStorage.setItem('data', JSON.stringify([...allUser, user]));
     localStorage.setItem('userrr', JSON.stringify(user));
-    setSuccessLogin(true);
+    history.push("/");
   };
-
-  if(successLogin) {
-    return <Redirect to='/' />
-  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -140,9 +136,12 @@ const SignUp = () => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/signin" variant="body2">
+            <Button
+                  onClick={() => history.push("/signin")}
+                >Don't have an account? Sign Up</Button>
+              {/* <Link href="/signin" variant="body2">
                 Already have an account? Sign in
-              </Link>
+              </Link> */}
             </Grid>
           </Grid>
         </div>

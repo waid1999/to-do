@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -36,26 +36,22 @@ const useStyles = makeStyles(theme => ({
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [successLogin, setSuccessLogin] = useState(false);
   const [error, setError] = useState(false);
 
   const classes = useStyles();
+  const history = useHistory();
   const allUser = JSON.parse(localStorage.getItem('data')) || [];
 
   const handleSubmit = () => {
     const user = allUser.find(item => item.email === email && item.password === password);
     if (user) {
       localStorage.setItem('userrr', JSON.stringify(user));
-      setSuccessLogin(true);
+      history.push("/");
     } else {
       setError(true);
     }
   };
 
-
-  if(successLogin) {
-    return <Redirect to='/' />
-  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -110,15 +106,13 @@ const SignIn = () => {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              {/* <Link href="/signup" variant="body2"> */}
+                <Button
+                  onClick={() => history.push("/signup")}
+                >Don't have an account? Sign Up</Button>
+                {/* {"Don't have an account? Sign Up"}
+              </Link> */}
             </Grid>
           </Grid>
         </div>
