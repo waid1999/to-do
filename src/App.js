@@ -1,43 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import TodoForm from './components/TodoForm';
-import TodoList from './components/TodoList';
-import Authorization from './components/authorization';
+import { BrowserRouter, Switch, Route, NavLink } from "react-router-dom";
 
-const App = () => {
-  const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todoList')) || []);
-  useEffect(() => {
-    localStorage.setItem('todoList', JSON.stringify(todos));
-  }, [todos]);
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import Main from './components/Main';
 
-  const saveTodo = (todoText) => {
-    const trimmedObj = {
-      done: false,
-      text: todoText.trim()
-    };
-    if (trimmedObj.text.length > 0) {
-      setTodos([...todos, trimmedObj]);
-    }
-  }
-
-  // const editElement = (todoIndex) => {
-    
-  // }
-
-  return (
+const App = () => (
+  <BrowserRouter>
     <div>
-      {/* <Authorization /> */}
-      <TodoForm
-        saveTodo={saveTodo}
-      />
-      <TodoList
-        todos={todos}
-        deleteTodo={(todoIndex) => {
-          const newTodos = todos.filter((_, index) => index !== todoIndex);
-          setTodos(newTodos);
-        }}
-        setTodo={setTodos}
-      />
+      <nav>
+        Navigation:
+        <NavLink exact to="/signin">
+          Logout
+        </NavLink>
+      </nav>
+      <main>
+        <Switch>
+          <Route exact path="/" component={Main} />
+          <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/signup" component={SignUp} />
+          {/* <Route component={NotFound} /> */}
+        </Switch>
+      </main>
     </div>
-  );
-};
+  </BrowserRouter>
+);
+
 export default App;

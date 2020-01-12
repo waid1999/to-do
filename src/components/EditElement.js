@@ -1,49 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   TextField,
   Dialog,
   DialogActions,
   DialogContent,
-  //DialogContentText,
   DialogTitle,
   Button
 } from '@material-ui/core';
 
-const EditElement = ({showEditDialog, setShowDialog}) => {
-  console.log("---", showEditDialog);
-  const [text, setText] = React.useState(showEditDialog.item);
+const EditElement = ({
+  showEditDialog,
+  setShowDialog,
+  editElement
+}) => {
+  const [text, setText] = useState(showEditDialog.item);
+
+  const edit = () => {
+    editElement(showEditDialog.index, text);
+    closeModal();
+  };
+
+  const closeModal = () => {
+    setShowDialog({
+      show: false,
+      index: null,
+      item: ''
+    })
+  };
 
   return (
     <div>
-      <Dialog open={showEditDialog.show} onClose={() => setShowDialog({show: false})} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+      <Dialog open={showEditDialog.show} onClose={closeModal} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Edit Item</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </DialogContentText> */}
           <TextField
-            value = {text}
-            onChange = {(event) => setText(event.target.value)}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
             autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
-            type="email"
+            label="Edit Item"
+            type="edit"
             fullWidth
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShowDialog({show: false})} color="primary">
+          <Button onClick={closeModal} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => setShowDialog({show: false})} color="primary">
+          <Button
+            onClick={edit}
+            color="primary"
+            disabled={!text}>
             Confirm
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+};
 
 export default EditElement;

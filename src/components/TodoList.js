@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   List, 
   ListItem,
@@ -12,23 +12,20 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import EditElement from './EditElement'
 
-// const deleteTodo = (index) => {
-
-// }
-
-const TodoList = ({ todos, deleteTodo, setTodo }) => {
+const TodoList = ({ todos, deleteTodo, setTodo, editElement }) => {
   const [showEditDialog, setShowDialog] = useState({
     show: false,
     index: null,
-    item: null
+    item: ''
   });
 
   return (
     <Fragment>
       {showEditDialog.show && 
         <EditElement 
-        showEditDialog = {showEditDialog}
-        setShowDialog = {setShowDialog}/>
+        showEditDialog={showEditDialog}
+        setShowDialog={setShowDialog}
+        editElement={editElement}/>
       }
       
       <List>
@@ -55,7 +52,6 @@ const TodoList = ({ todos, deleteTodo, setTodo }) => {
                     index,
                     item: todo.text
                   })
-                  // editTodo(index);
                 }}>
                 <EditIcon />
               </IconButton>
